@@ -8,6 +8,7 @@ var _ = {};
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -38,6 +39,19 @@ var _ = {};
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    if (n === undefined ) {
+      return array[array.length-1];
+    }
+    if (n === 0 ) {
+      return [];
+    }
+    if (n > array.length) {
+      return array.slice(0,n);
+    }
+    // [1,2,3,4] -> 2, get 3,4
+    else { 
+      return array.slice(n-1);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -46,6 +60,17 @@ var _ = {};
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+
+    if (collection instanceof Array) { // Why can't I use typeof collection === 'array'?
+      for (var i=0; i < collection.length; i++){
+        iterator(collection[i],i,collection);
+      }
+    } else if (typeof collection === "object"){
+      for (var i in collection) {
+        iterator(collection[i],i,collection);
+      }
+    }
+    
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -67,24 +92,66 @@ var _ = {};
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var obj = [];
+    // for (var i=0; i < collection.length; i++){
+    //   if (test(collection[i])){
+    //     obj.push(collection[i]);
+    //   }
+    // }
+
+    _.each(collection,function(item){
+      if(test(item)){
+        obj.push(item);
+      }
+    });
+
+    return obj;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+
+    return _.filter(collection,function(item){
+      return !test(item);
+    });
+
+    // var success = _.filter(collection,test); //get the array that passes.
+    // var reject = [];
+    // //compare the original with passing array, take the difference.
+
+    // for (var i=0; i < collection.length; i++){
+    //   for (var j=0; j < success.length; j++){
+    //     if(collection[i] === success[j]){
+    //       reject.push(i);
+    //     }
+    //   }
+    // }
+    
+    // return reject;
+
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var arr = [];
+      _.filter(array, function(item){
+        if (arr.indexOf(item) === -1){
+          arr.push(item);
+        }
+      });
+    return arr; // difference between this and putting return on filter, and inside filter
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
-    // map() is a useful primitive iteration function that works a lot
-    // like each(), but in addition to running the operation on all
-    // the members, it also maintains an array of results.
+  var arr = [];
+    _.each(collection, function(item){
+      arr.push(iterator(item));
+    });
+  return arr;
   };
 
   /*
@@ -108,6 +175,7 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    if (functionOrKey ===  )
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -123,7 +191,8 @@ var _ = {};
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  _.reduce = function(collection, iterator, accumulator) {
+  _.reduce = function(collection, iterator, accumulator){
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
