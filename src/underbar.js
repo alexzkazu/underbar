@@ -65,7 +65,7 @@ var _ = {};
       for (var i=0; i < collection.length; i++){
         iterator(collection[i],i,collection);
       }
-    } else if (typeof collection === "object"){
+    } else {
       for (var i in collection) {
         iterator(collection[i],i,collection);
       }
@@ -158,7 +158,7 @@ var _ = {};
     // apply the iterator to each item
     // push the results into an array
     // return an array of results
-    
+
   var arr = [];
     _.each(collection, function(item){
       arr.push(iterator(item));
@@ -212,6 +212,25 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator){
+
+    // do a loop through the collection
+    // the iterator does what it's supposed to do in the function
+    // if the accumulator isn't passed in, accumulator is 0
+    // the accumulator is supposed to save each result and run again as the previous number
+
+    var total;
+
+    if (accumulator === 'undefined'){
+      total = collection[0];
+    } else {
+      total = accumulator;
+    }
+
+    _.each(collection, function(item){
+      total = iterator(total, item);
+    });
+
+    return total;
 
   };
 
