@@ -239,7 +239,7 @@ var _ = {};
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
+      if (wasFound) { // would be a false,
         return true;
       }
       return item === target;
@@ -249,6 +249,21 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+
+    // take each item in the collection
+    // determine whether each item passes the test
+    // if it passes, return true
+
+    iterator = iterator || _.identity;
+
+    return _.reduce(collection, function(passed, item) { // true is passed in, grabs the next item
+      if (passed && iterator(item)){ // if passed was true && test passes, the result is saved as passed
+        return true;
+      } else {
+        return false;
+      }
+    }, true);
+
     // TIP: Try re-using reduce() here.
   };
 
