@@ -236,6 +236,17 @@ var _ = {};
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
+
+    // var contains = false;
+
+    // _.each(collection,function(num){
+    //   if (num === target){
+    //     contains = true;
+    //   }
+    // });
+
+    // return contains;
+
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
@@ -250,11 +261,20 @@ var _ = {};
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
 
+    // var result = true;
+    // _.each(collection, function(num){
+    //   if (!iterator(collection[i])){
+    //     result = false;
+    //   }
+    // });
+
+    // return result;
+
     // take each item in the collection
     // determine whether each item passes the test
     // if it passes, return true
 
-    iterator = iterator || _.identity;
+    iterator = iterator || _.identity; // 
 
     return _.reduce(collection, function(passed, item) { // true is passed in, grabs the next item
       if (passed && iterator(item)){ // if passed was true && test passes, the result is saved as passed
@@ -270,6 +290,31 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+
+    // var result = false;
+    // _.each(collection, function(num){
+
+    //   if (iterator(collection[i])){
+    //     result = true;
+    //   }
+
+    // });
+
+    // return result;
+
+    iterator = iterator || _.identity;
+
+    return _.reduce(collection, function(passed,item){
+      if (!passed && !iterator(item)){ // if ,
+        return false;
+      } else {
+        return true;
+      }
+    }, false); // starts from false
+
+    // take each item in the collection
+    // as long as one passes the test, it return true overall
+
     // TIP: There's a very clever way to re-use every() here.
   };
 
