@@ -342,9 +342,6 @@ var _ = {};
         return !truthStatementFunction(v); // going to return the opposite of truth
     }));
 
-    // take each item in the collection
-    // as long as one passes the test, it return true overall
-
     // TIP: There's a very clever way to re-use every() here.
   };
 
@@ -367,6 +364,28 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    // // iterate through the keys in the unknown number of arguments
+    // for (var i = 1; i < arguments.length; i++){ // arguments[0] is the first obj, so start from 1
+      
+    //   // iterate through each of the param/objs
+      
+    //   for (var a in arguments[i]){
+    //     // add the keys/values contained within those objects into the first obj
+    //     obj[a] = arguments[i][a];
+    //   }
+      
+    // }
+    
+    var properties = Array.prototype.slice.call(arguments,1); // arguments is an array-like object 
+    _.each(properties, function(item){ //iterate through the params in the function
+      _.each(Object.keys(item), function(key){ //iterate through each of the keys 
+        obj[key] = item[key]; //assign the values to the keys in object
+      });
+    });
+
+    return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
