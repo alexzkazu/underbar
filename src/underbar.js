@@ -257,6 +257,10 @@ var _ = {};
     }, false);
   };
 
+  _.every([3,4,5],function(num){ 
+
+    return num > 4;
+  });
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
@@ -282,10 +286,18 @@ var _ = {};
       } else {
         return false;
       }
-    }, true);
+    }, true); // starts with true
 
     // TIP: Try re-using reduce() here.
   };
+
+
+  [T,F,T] = false;
+  [F,T,F] = !false;
+  [F,T,F] = true;
+  [F,F,F] = false;
+  [F,F,F] = !false;
+
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
@@ -302,22 +314,39 @@ var _ = {};
 
     // return result;
 
+    // return _.reduce(collection, function(passed,item){
+    //   if (!passed && !iterator(item)){ // if ,
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // }, false); // starts from false
+
     iterator = iterator || _.identity;
 
-    return _.reduce(collection, function(passed,item){
-      if (!passed && !iterator(item)){ // if ,
-        return false;
-      } else {
-        return true;
-      }
-    }, false); // starts from false
+
+    // var result;
+    // _.every(collection, function(item){ // every checks whether all the items pass the test
+    //   if (item){
+    //     result= true;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // });
+
+    // return result;
+
+    return !(_every(collection, function(v) {
+        console.log(!truthStatementFunction(v));
+        return !truthStatementFunction(v); // going to return the opposite of truth
+    }));
 
     // take each item in the collection
     // as long as one passes the test, it return true overall
 
     // TIP: There's a very clever way to re-use every() here.
   };
-
 
   /**
    * OBJECTS
