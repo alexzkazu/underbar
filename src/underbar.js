@@ -391,6 +391,16 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    var properties = Array.prototype.slice.call(arguments,1); // arguments is an array-like object 
+    _.each(properties, function(item){ //iterate through the params in the function
+      _.each(Object.keys(item), function(key){ //iterate through each of the keys 
+        obj[key] = key in obj ? obj[key] : item[key]; // if the key is in object, it stays as it is, if not, assign it
+      });
+    });
+
+    return obj;
+
   };
 
 
