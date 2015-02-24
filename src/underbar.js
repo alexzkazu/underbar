@@ -292,13 +292,6 @@ var _ = {};
   };
 
 
-  [T,F,T] = false;
-  [F,T,F] = !false;
-  [F,T,F] = true;
-  [F,F,F] = false;
-  [F,F,F] = !false;
-
-
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
@@ -435,6 +428,8 @@ var _ = {};
     };
   };
 
+
+
   // Memoize an expensive function by storing its results. You may assume
   // that the function takes only one argument and that it is a primitive.
   //
@@ -442,6 +437,21 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    // have a var that caches the result from the function
+    var result = {};
+
+    return function () {
+      var arg = arguments[0];
+
+      // if arg key doesn't exist in result, run the function and save the value
+      if (!(arg in result)) {
+        result[arg] = func.apply(this,arg);
+      }
+
+      return result[arguments];
+    };
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -451,6 +461,15 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+
+    // grab the arguments after wait, so 2
+    var args = Array.prototype.slice.call(arguments,2);
+
+    setTimeout (function(){
+      func.apply(this,args); 
+    }, wait);
+
+
   };
 
 
@@ -465,6 +484,21 @@ var _ = {};
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+
+    var result = [];
+    var copy = array.slice(); // make copy
+    var length = copy.length; // keep original length
+
+    // take a random number contained within the array, loop through the array until all are pushed
+    for (var i=0; i< length; i++){
+      //random number
+      var random = Math.floor(copy.length*Math.random()); //takes current length of copy, and assigns a random key
+      result.push(copy[random]); // push item into result
+      copy.splice(random,1); // take out from the copy  
+    }
+
+    return result;
+  
   };
 
 
