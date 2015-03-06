@@ -257,11 +257,6 @@ var _ = {};
     }, false);
   };
 
-  _.every([3,4,5],function(num){ 
-
-    return num > 4;
-  });
-
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
 
@@ -441,13 +436,14 @@ var _ = {};
     // have a var that caches the result from the function
     var result = {};
 
-    return function () {
-      var arg = arguments[0];
+    return function (argument) {
 
       // if arg key doesn't exist in result, run the function and save the value
-      if (!(arg in result)) {
-        result[arg] = func.apply(this,arg);
+      if (result[argument]){
+        return result[argument];
       }
+
+      result[argument] = func.apply(this,arguments);
 
       return result[arguments];
     };
@@ -468,7 +464,6 @@ var _ = {};
     setTimeout (function(){
       func.apply(this,args); 
     }, wait);
-
 
   };
 
